@@ -28,18 +28,21 @@ with col2:
     )
 
 
-target=st.number_input('Target')
+target=st.number_input('Target',min_value=0,step=1)
 col3,col4,col5=st.columns(3)
 with col3:
-    score=st.number_input('Score')
+    score=st.number_input('Score',min_value=0, step=1)
 with col4:
-    overs=st.number_input('Overs completed')
+    overs=st.number_input('Overs completed',min_value=0.0, step=0.1)
 with col5:
-    wickets=st.number_input('Wickets out')
+    wickets=st.number_input('Wickets out',min_value=0, step=1)
 
 if(st.button('Predict Probability')):
     runs_left=target-score
-    balls_left=120-(overs*6)
+    over_full = int(overs)
+    ball_uncompleted = int((overs - over_full) * 10)
+    balls_bowled = over_full * 6 + ball_uncompleted
+    balls_left = 120 - balls_bowled
     wickets=10-wickets
     crr = score / overs if overs > 0 else 0
     rrr=runs_left*6/balls_left
